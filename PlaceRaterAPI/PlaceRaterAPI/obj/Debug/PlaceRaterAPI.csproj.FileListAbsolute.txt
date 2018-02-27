@@ -1,0 +1,11 @@
+C:\Users\luan.gustavo\Desktop\Sprint 2\Projeto\API\PlaceRaterAPI\PlaceRaterAPI\PlaceRaterAPI\bin\Debug\PlaceRaterAPI.exe.config
+C:\Users\luan.gustavo\Desktop\Sprint 2\Projeto\API\PlaceRaterAPI\PlaceRaterAPI\PlaceRaterAPI\bin\Debug\PlaceRaterAPI.exe
+C:\Users\luan.gustavo\Desktop\Sprint 2\Projeto\API\PlaceRaterAPI\PlaceRaterAPI\PlaceRaterAPI\bin\Debug\PlaceRaterAPI.pdb
+C:\Users\luan.gustavo\Desktop\Sprint 2\Projeto\API\PlaceRaterAPI\PlaceRaterAPI\PlaceRaterAPI\bin\Debug\EntityFramework.dll
+C:\Users\luan.gustavo\Desktop\Sprint 2\Projeto\API\PlaceRaterAPI\PlaceRaterAPI\PlaceRaterAPI\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\luan.gustavo\Desktop\Sprint 2\Projeto\API\PlaceRaterAPI\PlaceRaterAPI\PlaceRaterAPI\bin\Debug\EntityFramework.xml
+C:\Users\luan.gustavo\Desktop\Sprint 2\Projeto\API\PlaceRaterAPI\PlaceRaterAPI\PlaceRaterAPI\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\luan.gustavo\Desktop\Sprint 2\Projeto\API\PlaceRaterAPI\PlaceRaterAPI\PlaceRaterAPI\obj\Debug\PlaceRaterAPI.csprojResolveAssemblyReference.cache
+C:\Users\luan.gustavo\Desktop\Sprint 2\Projeto\API\PlaceRaterAPI\PlaceRaterAPI\PlaceRaterAPI\obj\Debug\PlaceRaterAPI.csproj.CoreCompileInputs.cache
+C:\Users\luan.gustavo\Desktop\Sprint 2\Projeto\API\PlaceRaterAPI\PlaceRaterAPI\PlaceRaterAPI\obj\Debug\PlaceRaterAPI.exe
+C:\Users\luan.gustavo\Desktop\Sprint 2\Projeto\API\PlaceRaterAPI\PlaceRaterAPI\PlaceRaterAPI\obj\Debug\PlaceRaterAPI.pdb
