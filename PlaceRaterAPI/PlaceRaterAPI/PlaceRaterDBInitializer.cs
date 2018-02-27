@@ -11,6 +11,7 @@ namespace PlaceRaterAPI
     {
         protected override void Seed(PlaceRaterContext context)
         {
+            /* ---------------- Seed Categories ---------------- */
             IList<Category> defaultCategories = new List<Category>();
 
             defaultCategories.Add(new Category() { Name = "Monumento" });
@@ -31,9 +32,21 @@ namespace PlaceRaterAPI
             defaultCategories.Add(new Category() { Name = "Trem Histórico" });
             defaultCategories.Add(new Category() { Name = "Miradouro" });
 
-            foreach (Category category in defaultCategories)
+            /* ---------------- Seed Places ---------------- */
+            IList<Place> defaultPlaces = new List<Place>();
+
+            defaultPlaces.Add(new Place() { Name = "Cristo Redentor", City = "Rio de Janeiro", State = "RJ", Categories = new List<Category> { defaultCategories[0], defaultCategories[8] } });
+            defaultPlaces.Add(new Place() { Name = "Estátua da Liberdade", City = "Nova York", State = "NY", Categories = new List<Category> { defaultCategories[0], defaultCategories[8] } });
+
+            /* ---------------- Seed Images ---------------- */
+            IList<Image> defaultImages = new List<Image>();
+
+            defaultImages.Add(new Image() { Name = defaultPlaces[0].Name, City = defaultPlaces[0].City, State = defaultPlaces[0].State, Url = "https://buziosturismo.com/wp-content/uploads/cache/images/Cristo-Redentor-11/Cristo-Redentor-11-2432722836.jpg", Place = defaultPlaces[0] });
+            defaultImages.Add(new Image() { Name = defaultPlaces[1].Name, City = defaultPlaces[1].City, State = defaultPlaces[1].State, Url = "https://novayork.com/sites/default/files/estatua_da_liberdade_nyc.jpg", Place = defaultPlaces[1] });
+
+            foreach (Image image in defaultImages)
             {
-                context.Categories.Add(category);
+                context.Images.Add(image);
             }
 
             base.Seed(context);
