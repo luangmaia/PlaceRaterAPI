@@ -11,7 +11,7 @@ namespace PlaceRaterAPI
     {
         public PlaceRaterContext(): base("name=PlaceRaterDBConnectionString")
         {
-            Database.SetInitializer<PlaceRaterContext>(new DropCreateDatabaseIfModelChanges<PlaceRaterContext>());
+            Database.SetInitializer(new PlaceRaterDBInitializer());
         }
 
         public DbSet<Category> Categories { get; set; }
