@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlaceRaterAPI.UOW;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,9 @@ namespace PlaceRaterAPI
         {
             using (var ctx = new PlaceRaterContext())
             {
-                var user = new User() { Login = "user", HashPass = "fdfsd2313s", Email = "email@email.com", Name = "User 123" };
+                var user = new User() { Login = "user", HashPass = "fdfsd2313s", Email = "email@email.com", Name = "User 123", Categories = new List<Category> { ctx.Categories.FirstOrDefault() } };
                 ctx.Users.Add(user);
-                var user2 = new User() { Login = "user2", HashPass = "fdfsd2313s", Email = "email@email.com", Name = "User 1234" };
+                var user2 = new User() { Login = "user2", HashPass = "fdfsd2313s", Email = "email@email.com", Name = "User 1234", Categories = new List<Category> { ctx.Categories.FirstOrDefault() } };
                 ctx.Users.Add(user2);
 
                 var place = ctx.Places.FirstOrDefault<Place>();
@@ -22,8 +23,23 @@ namespace PlaceRaterAPI
                 ctx.Rates.Add(rate);
                 rate = new Rate() { User = user2, Login = user2.Login, Place = place, City = place.City, State = place.State, Stars = 1, Price = 1, Comment = "Lugar Péssimo >=(" };
                 ctx.Rates.Add(rate);
+                place = ctx.Places.ToList()[1];
+                rate = new Rate() { User = user2, Login = user2.Login, Place = place, City = place.City, State = place.State, Stars = 1, Price = 1, Comment = "Lugar Péssimo >=(" };
+                ctx.Rates.Add(rate);
 
                 ctx.SaveChanges();
+            }
+
+            using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
+            {
+                var places = unitOfWork.Places.GetTopAvaliados(4);
+
+                foreach (var place in places)
+                {
+                    Console.WriteLine(place.Name);
+                }
+
+                Console.Read();
             }
         }
     }
