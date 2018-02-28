@@ -52,19 +52,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Category.cs" />
-    <Compile Include="Image.cs" />
-    <Compile Include="Place.cs" />
+    <Compile Include="Entities\Category.cs" />
+    <Compile Include="Entities\Image.cs" />
+    <Compile Include="Entities\Place.cs" />
+    <Compile Include="Migrations\201802271814242_InitialCreate.cs" />
+    <Compile Include="Migrations\201802271814242_InitialCreate.Designer.cs">
+      <DependentUpon>201802271814242_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802281259052_criaSPs.cs" />
+    <Compile Include="Migrations\201802281259052_criaSPs.Designer.cs">
+      <DependentUpon>201802281259052_criaSPs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PlaceRaterContext.cs" />
     <Compile Include="PlaceRaterDBInitializer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rate.cs" />
-    <Compile Include="User.cs" />
+    <Compile Include="Entities\Rate.cs" />
+    <Compile Include="Entities\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201802271814242_InitialCreate.resx">
+      <DependentUpon>201802271814242_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802281259052_criaSPs.resx">
+      <DependentUpon>201802281259052_criaSPs.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

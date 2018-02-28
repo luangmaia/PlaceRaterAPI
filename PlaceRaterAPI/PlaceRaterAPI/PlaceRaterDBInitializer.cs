@@ -49,6 +49,8 @@ namespace PlaceRaterAPI
                 context.Images.Add(image);
             }
 
+            context.SaveChanges();
+
             base.Seed(context);
         }
     }

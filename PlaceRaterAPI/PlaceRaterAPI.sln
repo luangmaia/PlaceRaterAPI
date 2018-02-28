@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaceRaterEF", "PlaceRaterAPI\PlaceRaterEF.csproj", "{50B7C99D-49D6-4E56-A972-550D677370EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaceRaterRestAPI", "PlaceRaterRestAPI\PlaceRaterRestAPI.csproj", "{E73AD3A5-F50F-4E38-AF48-4EF142406BFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaceRaterAPI", "PlaceRaterRestAPI\PlaceRaterAPI.csproj", "{E73AD3A5-F50F-4E38-AF48-4EF142406BFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
