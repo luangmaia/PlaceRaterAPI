@@ -62,5 +62,15 @@ namespace PlaceRaterAPI.Repositories
 
             return places;
         }
+
+        public IEnumerable<Place> SearchByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Place> SearchByCity(string city)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
