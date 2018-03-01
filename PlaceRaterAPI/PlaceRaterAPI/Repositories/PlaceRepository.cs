@@ -65,12 +65,30 @@ namespace PlaceRaterAPI.Repositories
 
         public IEnumerable<Place> SearchByName(string name)
         {
-            throw new NotImplementedException();
+            var places = ((PlaceRaterContext)Context).Places
+                .Where(p => p.Name.ToLower().Contains(name.ToLower()))
+                .ToList();
+
+            return places;
         }
 
-        public IEnumerable<Place> SearchByCity(string city)
+        public IEnumerable<Place> SearchByCityState(string city)
         {
-            throw new NotImplementedException();
+            var places = ((PlaceRaterContext)Context).Places
+                .Where(p => p.City.ToLower().Contains(city.ToLower()) || p.State.ToLower().Contains(city.ToLower()))
+                .ToList();
+
+            return places;
+        }
+
+        public IEnumerable<Place> SearchByNameCityState(string str)
+        {
+            var strLower = str.ToLower();
+            var places = ((PlaceRaterContext)Context).Places
+                .Where(p => p.City.ToLower().Contains(strLower) || p.State.ToLower().Contains(strLower) || p.Name.ToLower().Contains(strLower))
+                .ToList();
+
+            return places;
         }
     }
 }

@@ -12,6 +12,7 @@ namespace PlaceRaterAPI.Repositories
         IEnumerable<Place> GetTopAvaliados(int count);
         IEnumerable<Place> GetTopCustoBeneficio(int count);
         IEnumerable<Place> SearchByName(string name);
-        IEnumerable<Place> SearchByCity(string city);
+        IEnumerable<Place> SearchByCityState(string city);
+        IEnumerable<Place> SearchByNameCityState(string str);
     }
 }
