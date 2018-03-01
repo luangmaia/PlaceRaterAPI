@@ -67,7 +67,16 @@ namespace PlaceRaterAPI.Repositories
         {
             var places = ((PlaceRaterContext)Context).Places
                 .Where(p => p.Name.ToLower().Contains(name.ToLower()))
+                .Include(p => p.Categories)
                 .ToList();
+
+            foreach (Place place in places)
+            {
+                foreach (Category category in place.Categories)
+                {
+                    category.Places = null;
+                }
+            }
 
             return places;
         }
@@ -76,7 +85,16 @@ namespace PlaceRaterAPI.Repositories
         {
             var places = ((PlaceRaterContext)Context).Places
                 .Where(p => p.City.ToLower().Contains(city.ToLower()) || p.State.ToLower().Contains(city.ToLower()))
+                .Include(p => p.Categories)
                 .ToList();
+
+            foreach (Place place in places)
+            {
+                foreach (Category category in place.Categories)
+                {
+                    category.Places = null;
+                }
+            }
 
             return places;
         }
@@ -86,7 +104,16 @@ namespace PlaceRaterAPI.Repositories
             var strLower = str.ToLower();
             var places = ((PlaceRaterContext)Context).Places
                 .Where(p => p.City.ToLower().Contains(strLower) || p.State.ToLower().Contains(strLower) || p.Name.ToLower().Contains(strLower))
+                .Include(p => p.Categories)
                 .ToList();
+
+            foreach(Place place in places)
+            {
+                foreach(Category category in place.Categories)
+                {
+                    category.Places = null;
+                }
+            }
 
             return places;
         }
