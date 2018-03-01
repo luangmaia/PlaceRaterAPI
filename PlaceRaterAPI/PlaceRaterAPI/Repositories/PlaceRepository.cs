@@ -22,7 +22,7 @@ namespace PlaceRaterAPI.Repositories
             var places = new List<Place>();
             foreach (var rate in rates)
             {
-                var place = ((PlaceRaterContext)Context).Places.Where(p => p.Name == rate.Name && p.State == rate.State && p.City == rate.City)/*.Include(p => p.Categories)*/.SingleOrDefault<Place>();
+                var place = ((PlaceRaterContext)Context).Places.Where(p => p.Name == rate.Name && p.State == rate.State && p.City == rate.City).Include(p => p.Images).SingleOrDefault<Place>();
                 places.Add(place);
             }
 
@@ -39,7 +39,7 @@ namespace PlaceRaterAPI.Repositories
             var places = new List<Place>();
             foreach (var rate in rates)
             {
-                var place = ((PlaceRaterContext)Context).Places.Where(p => p.Name == rate.Name && p.State == rate.State && p.City == rate.City)/*.Include(p => p.Categories)*/.SingleOrDefault<Place>();
+                var place = ((PlaceRaterContext)Context).Places.Where(p => p.Name == rate.Name && p.State == rate.State && p.City == rate.City).Include(p => p.Images).SingleOrDefault<Place>();
                 places.Add(place);
             }
 
@@ -56,7 +56,7 @@ namespace PlaceRaterAPI.Repositories
             var places = new List<Place>();
             foreach (var rate in rates)
             {
-                var place = ((PlaceRaterContext)Context).Places.Where(p => p.Name == rate.Name && p.State == rate.State && p.City == rate.City)/*.Include(p => p.Categories)*/.SingleOrDefault<Place>();
+                var place = ((PlaceRaterContext)Context).Places.Where(p => p.Name == rate.Name && p.State == rate.State && p.City == rate.City).Include(p => p.Images).SingleOrDefault<Place>();
                 places.Add(place);
             }
 

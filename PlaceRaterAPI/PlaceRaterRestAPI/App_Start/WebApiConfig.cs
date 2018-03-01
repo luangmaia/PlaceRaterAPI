@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace PlaceRaterRestAPI
 {
@@ -9,6 +10,9 @@ namespace PlaceRaterRestAPI
     {
         public static void Register(HttpConfiguration config)
         {
+            var cors = new EnableCorsAttribute("http://localhost:8080", "*", "*");
+            config.EnableCors();
+
             // Web API configuration and services
 
             // Web API routes

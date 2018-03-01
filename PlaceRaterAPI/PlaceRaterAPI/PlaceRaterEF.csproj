@@ -59,15 +59,10 @@
     <Compile Include="Entities\Image.cs" />
     <Compile Include="Entities\Place.cs" />
     <Compile Include="UOW\IUnitOfWork.cs" />
-    <Compile Include="Migrations\201802271814242_InitialCreate.cs" />
-    <Compile Include="Migrations\201802271814242_InitialCreate.Designer.cs">
-      <DependentUpon>201802271814242_InitialCreate.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201802281259052_criaSPs.cs" />
     <Compile Include="Migrations\201802281259052_criaSPs.Designer.cs">
       <DependentUpon>201802281259052_criaSPs.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PlaceRaterContext.cs" />
     <Compile Include="PlaceRaterDBInitializer.cs" />
     <Compile Include="Program.cs" />
@@ -86,9 +81,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201802271814242_InitialCreate.resx">
-      <DependentUpon>201802271814242_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802281259052_criaSPs.resx">
       <DependentUpon>201802281259052_criaSPs.cs</DependentUpon>
     </EmbeddedResource>

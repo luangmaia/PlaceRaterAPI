@@ -13,7 +13,7 @@ namespace PlaceRaterAPI
         {
             using (var ctx = new PlaceRaterContext())
             {
-                var user = new User() { Login = "user", HashPass = "fdfsd2313s", Email = "email@email.com", Name = "User 123", Categories = new List<Category> { ctx.Categories.FirstOrDefault() } };
+                /*var user = new User() { Login = "user", HashPass = "fdfsd2313s", Email = "email@email.com", Name = "User 123", Categories = new List<Category> { ctx.Categories.FirstOrDefault() } };
                 ctx.Users.Add(user);
                 var user2 = new User() { Login = "user2", HashPass = "fdfsd2313s", Email = "email@email.com", Name = "User 1234", Categories = new List<Category> { ctx.Categories.FirstOrDefault() } };
                 ctx.Users.Add(user2);
@@ -27,7 +27,7 @@ namespace PlaceRaterAPI
                 rate = new Rate() { User = user2, Login = user2.Login, Place = place, City = place.City, State = place.State, Stars = 1, Price = 1, Comment = "Lugar Péssimo >=(" };
                 ctx.Rates.Add(rate);
 
-                ctx.SaveChanges();
+                ctx.SaveChanges();*/
             }
 
             using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))

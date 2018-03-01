@@ -21,5 +21,6 @@ namespace PlaceRaterAPI
         public string State { get; set; }
 
         public ICollection<Category> Categories { get; set; }
+        public ICollection<Image> Images { get; set; }
     }
 }

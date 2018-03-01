@@ -13,19 +13,5 @@ namespace PlaceRaterAPI
         [Key]
         [Column(Order = 1)]
         public string Url { get; set; }
-        [Key]
-        [Column(Order = 2)]
-        [ForeignKey("Place")]
-        public string Name { get; set; }
-        [Key]
-        [Column(Order = 3)]
-        [ForeignKey("Place")]
-        public string City { get; set; }
-        [Key]
-        [Column(Order = 4)]
-        [ForeignKey("Place")]
-        public string State { get; set; }
-
-        public Place Place { get; set; }
     }
 }
