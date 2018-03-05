@@ -1,4 +1,5 @@
 ﻿using PlaceRaterAPI.Repositories;
+using PlaceRaterAPI.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace PlaceRaterAPI.UOW
     public interface IUnitOfWork : IDisposable
     {
         IPlaceRepository Places { get; }
+        IRateRepository Rates { get; }
         int Complete();
     }
 }

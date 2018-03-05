@@ -2,6 +2,7 @@
 using PlaceRaterAPI.UOW;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -10,21 +11,24 @@ using System.Web.Http.Cors;
 
 namespace PlaceRaterRestAPI.Controllers
 {
-    public class TopPlacesController : ApiController
+    public class RateController : ApiController
     {
-        [Route("toppopulares/{count}")]
+        [Route("avgStarsPlace/{name}/{city}/{state}")]
         [HttpGet]
         [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
-        public HttpResponseMessage GetTopPopulares(int count)
+        public HttpResponseMessage GetAvgStarsPlace(string name, string city, string state)
         {
-            try {
-                IEnumerable<Place> places = new List<Place>();
+            try
+            {
+                double avg = 0;
                 using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
                 {
-                    places = unitOfWork.Places.GetTopPopulares(count);
+                    avg = unitOfWork.Rates.GetPlaceAvgStars(new Place() { Name = name, City = city, State = state } );
                 }
 
-                return Request.CreateResponse(HttpStatusCode.OK, places.ToList());
+                var retorno = new { avg = avg };
+
+                return Request.CreateResponse(HttpStatusCode.OK, retorno);
             }
             catch (Exception)
             {
@@ -32,19 +36,22 @@ namespace PlaceRaterRestAPI.Controllers
             }
         }
 
-        [Route("topavaliados/{count}")]
+        [Route("avgPricePlace/{name}/{city}/{state}")]
         [HttpGet]
         [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
-        public HttpResponseMessage GetTopAvaliados(int count)
+        public HttpResponseMessage GetAvgPricePlace(string name, string city, string state)
         {
-            try {
-                IEnumerable<Place> places = new List<Place>();
+            try
+            {
+                double avg = 0;
                 using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
                 {
-                    places = unitOfWork.Places.GetTopAvaliados(count);
+                    avg = unitOfWork.Rates.GetPlaceAvgPrice(new Place() { Name = name, City = city, State = state });
                 }
 
-                return Request.CreateResponse(HttpStatusCode.OK, places.ToList());
+                var retorno = new { avg = avg };
+
+                return Request.CreateResponse(HttpStatusCode.OK, retorno);
             }
             catch (Exception)
             {
@@ -52,25 +59,27 @@ namespace PlaceRaterRestAPI.Controllers
             }
         }
 
-        [Route("topcustobeneficio/{count}")]
+        [Route("qtdeRatePlace/{name}/{city}/{state}")]
         [HttpGet]
         [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
-        public HttpResponseMessage GetTopCustoBeneficio(int count)
+        public HttpResponseMessage GetQtdePlace(string name, string city, string state)
         {
-            try {
-                IEnumerable<Place> places = new List<Place>();
+            try
+            {
+                int qtde = 0;
                 using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
                 {
-                    places = unitOfWork.Places.GetTopCustoBeneficio(count);
+                    qtde = unitOfWork.Rates.GetPlaceQtde(new Place() { Name = name, City = city, State = state });
                 }
 
-                return Request.CreateResponse(HttpStatusCode.OK, places.ToList());
+                var retorno = new { qtde = qtde };
+
+                return Request.CreateResponse(HttpStatusCode.OK, retorno);
             }
             catch (Exception)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
-
     }
 }

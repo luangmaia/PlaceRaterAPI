@@ -32,12 +32,14 @@ namespace PlaceRaterAPI
 
             using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
             {
-                var places = unitOfWork.Places.SearchByNameCityState("rj");
+                /*var places = unitOfWork.Places.SearchByNameCityStatePagination("e", 2, 1);
 
                 foreach (var place in places)
                 {
                     Console.WriteLine(place.Name);
-                }
+                }*/
+
+                Console.WriteLine(unitOfWork.Rates.GetPlaceAvgStars(unitOfWork.Places.GetTopAvaliados(1).FirstOrDefault()));
 
                 Console.Read();
             }
