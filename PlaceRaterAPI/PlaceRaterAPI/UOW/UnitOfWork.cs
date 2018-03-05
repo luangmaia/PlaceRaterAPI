@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PlaceRaterAPI.Repositories;
+using PlaceRaterAPI.Repositories.Interfaces;
 
 namespace PlaceRaterAPI.UOW
 {
@@ -15,8 +16,12 @@ namespace PlaceRaterAPI.UOW
         {
             _context = context;
             Places = new PlaceRepository(_context);
+            Rates = new RateRepository(_context);
+            Categories = new CategoryRepository(_context);
         }
         public IPlaceRepository Places { get; private set;}
+        public IRateRepository Rates { get; private set; }
+        public ICategoryRepository Categories { get; private set; }
 
         public int Complete()
         {

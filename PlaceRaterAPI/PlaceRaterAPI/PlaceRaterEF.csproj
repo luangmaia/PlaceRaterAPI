@@ -45,6 +45,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity.Design" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.Entity.Design" />
     <Reference Include="System.Xml.Linq" />
@@ -58,6 +59,15 @@
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Image.cs" />
     <Compile Include="Entities\Place.cs" />
+    <Compile Include="Migrations\201803011832376_InitialCreate.cs" />
+    <Compile Include="Migrations\201803011832376_InitialCreate.Designer.cs">
+      <DependentUpon>201803011832376_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Repositories\Interfaces\ICategoryRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IRateRepository.cs" />
+    <Compile Include="Repositories\CategoryRepository.cs" />
+    <Compile Include="Repositories\RateRepository.cs" />
     <Compile Include="UOW\IUnitOfWork.cs" />
     <Compile Include="Migrations\201802281259052_criaSPs.cs" />
     <Compile Include="Migrations\201802281259052_criaSPs.Designer.cs">
@@ -83,6 +93,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201802281259052_criaSPs.resx">
       <DependentUpon>201802281259052_criaSPs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803011832376_InitialCreate.resx">
+      <DependentUpon>201803011832376_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -62,5 +62,129 @@ namespace PlaceRaterAPI.Repositories
 
             return places;
         }
+
+        public IEnumerable<Place> SearchByName(string name)
+        {
+            var places = ((PlaceRaterContext)Context).Places
+                .Where(p => p.Name.ToLower().Contains(name.ToLower()))
+                .Include(p => p.Images)
+                .Include(p => p.Categories)
+                .ToList();
+
+            foreach (Place place in places)
+            {
+                foreach (Category category in place.Categories)
+                {
+                    category.Places = null;
+                }
+            }
+
+            return places;
+        }
+
+        public IEnumerable<Place> SearchByCityState(string city)
+        {
+            var places = ((PlaceRaterContext)Context).Places
+                .Where(p => p.City.ToLower().Contains(city.ToLower()) || p.State.ToLower().Contains(city.ToLower()))
+                .Include(p => p.Images)
+                .Include(p => p.Categories)
+                .ToList();
+
+            foreach (Place place in places)
+            {
+                foreach (Category category in place.Categories)
+                {
+                    category.Places = null;
+                }
+            }
+
+            return places;
+        }
+
+        public IEnumerable<Place> SearchByNameCityState(string str)
+        {
+            var strLower = str.ToLower();
+            var places = ((PlaceRaterContext)Context).Places
+                .Where(p => p.City.ToLower().Contains(strLower) || p.State.ToLower().Contains(strLower) || p.Name.ToLower().Contains(strLower))
+                .Include(p => p.Images)
+                .Include(p => p.Categories)
+                .ToList();
+
+            foreach(Place place in places)
+            {
+                foreach(Category category in place.Categories)
+                {
+                    category.Places = null;
+                }
+            }
+
+            return places;
+        }
+
+        public IEnumerable<Place> SearchByNameCityStatePagination(string str, int page, int pageSize)
+        {
+            var strLower = str.ToLower();
+            var places = ((PlaceRaterContext)Context).Places
+                .Where(p => p.City.ToLower().Contains(strLower) || p.State.ToLower().Contains(strLower) || p.Name.ToLower().Contains(strLower))
+                .OrderBy(p => p.Name)
+                .Skip((page - 1) * pageSize).Take(pageSize)
+                .Include(p => p.Images)
+                .Include(p => p.Categories)
+                .ToList();
+
+            foreach (Place place in places)
+            {
+                foreach (Category category in place.Categories)
+                {
+                    category.Places = null;
+                }
+            }
+
+            return places;
+        }
+
+        public IEnumerable<Place> SearchByNameCityStateCategoryPagination(string str, int page, int pageSize, string categoria)
+        {
+            var strLower = str.ToLower();
+            var places = ((PlaceRaterContext)Context).Places
+                .Where(p => p.City.ToLower().Contains(strLower) || p.State.ToLower().Contains(strLower) || p.Name.ToLower().Contains(strLower))
+                .Where(p => p.Categories.Any(c => c.Name == categoria))
+                .OrderBy(p => p.Name)
+                .Skip((page - 1) * pageSize).Take(pageSize)
+                .Include(p => p.Images)
+                .Include(p => p.Categories)
+                .ToList();
+
+            foreach (Place place in places)
+            {
+                foreach (Category category in place.Categories)
+                {
+                    category.Places = null;
+                }
+            }
+
+            return places;
+        }
+
+        public IEnumerable<Place> SearchByNameCityStateCategory(string str, string categoria)
+        {
+            var strLower = str.ToLower();
+            var places = ((PlaceRaterContext)Context).Places
+                .Where(p => p.City.ToLower().Contains(strLower) || p.State.ToLower().Contains(strLower) || p.Name.ToLower().Contains(strLower))
+                .Where(p => p.Categories.Any(c => c.Name == categoria))
+                .Include(p => p.Images)
+                .Include(p => p.Categories)
+                .ToList();
+
+            foreach (Place place in places)
+            {
+                foreach (Category category in place.Categories)
+                {
+                    category.Places = null;
+                }
+            }
+
+            return places;
+        }
     }
 }

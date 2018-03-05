@@ -37,11 +37,13 @@ namespace PlaceRaterAPI
 
             defaultImages.Add(new Image() { Url = "https://buziosturismo.com/wp-content/uploads/cache/images/Cristo-Redentor-11/Cristo-Redentor-11-2432722836.jpg" });
             defaultImages.Add(new Image() { Url = "https://novayork.com/sites/default/files/estatua_da_liberdade_nyc.jpg" });
+            defaultImages.Add(new Image() { Url = "https://www.vamostrilhar.com.br/wp-content/uploads/2014/02/sobre-o-pc3a3o-de-ac3a7ucar-caminhadas-ecologicas-rj.jpg" });
 
             IList<Place> defaultPlaces = new List<Place>();
 
             defaultPlaces.Add(new Place() { Name = "Cristo Redentor", City = "Rio de Janeiro", State = "RJ", Categories = new List<Category> { defaultCategories[0], defaultCategories[8] }, Images = new List<Image> { defaultImages[0] } });
             defaultPlaces.Add(new Place() { Name = "Estátua da Liberdade", City = "Nova York", State = "NY", Categories = new List<Category> { defaultCategories[0], defaultCategories[8] }, Images = new List<Image> { defaultImages[1] } });
+            defaultPlaces.Add(new Place() { Name = "Pão de Açucar", City = "Rio de Janeiro", State = "RJ", Categories = new List<Category> { defaultCategories[5] }, Images = new List<Image> { defaultImages[2] } });
 
             foreach (Place placeI in defaultPlaces)
             {
@@ -64,6 +66,9 @@ namespace PlaceRaterAPI
             context.Rates.Add(rate);
             place = context.Places.ToList()[1];
             rate = new Rate() { User = user2, Login = user2.Login, Place = place, City = place.City, State = place.State, Stars = 1, Price = 1, Comment = "Lugar Péssimo >=(" };
+            context.Rates.Add(rate);
+            place = context.Places.ToList()[2];
+            rate = new Rate() { User = user2, Login = user2.Login, Place = place, City = place.City, State = place.State, Stars = 2, Price = 4, Comment = "Lugar Péssimo >=(" };
             context.Rates.Add(rate);
 
 

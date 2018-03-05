@@ -15,43 +15,61 @@ namespace PlaceRaterRestAPI.Controllers
         [Route("toppopulares/{count}")]
         [HttpGet]
         [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
-        public IEnumerable<Place> GetTopPopulares(int count)
+        public HttpResponseMessage GetTopPopulares(int count)
         {
-            IEnumerable<Place> places = new List<Place>();
-            using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-            {
-                places = unitOfWork.Places.GetTopPopulares(count);
-            }
+            try {
+                IEnumerable<Place> places = new List<Place>();
+                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
+                {
+                    places = unitOfWork.Places.GetTopPopulares(count);
+                }
 
-            return places.ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, places.ToList());
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
         }
 
         [Route("topavaliados/{count}")]
         [HttpGet]
         [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
-        public IEnumerable<Place> GetTopAvaliados(int count)
+        public HttpResponseMessage GetTopAvaliados(int count)
         {
-            IEnumerable<Place> places = new List<Place>();
-            using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-            {
-                places = unitOfWork.Places.GetTopAvaliados(count);
-            }
+            try {
+                IEnumerable<Place> places = new List<Place>();
+                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
+                {
+                    places = unitOfWork.Places.GetTopAvaliados(count);
+                }
 
-            return places.ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, places.ToList());
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
         }
 
         [Route("topcustobeneficio/{count}")]
         [HttpGet]
         [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
-        public IEnumerable<Place> GetTopCustoBeneficio(int count)
+        public HttpResponseMessage GetTopCustoBeneficio(int count)
         {
-            IEnumerable<Place> places = new List<Place>();
-            using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-            {
-                places = unitOfWork.Places.GetTopCustoBeneficio(count);
-            }
+            try {
+                IEnumerable<Place> places = new List<Place>();
+                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
+                {
+                    places = unitOfWork.Places.GetTopCustoBeneficio(count);
+                }
 
-            return places.ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, places.ToList());
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
         }
 
     }
