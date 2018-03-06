@@ -85,20 +85,20 @@ namespace PlaceRaterRestAPI.Controllers
         [Route("postrate/")]
         [HttpPost]
         [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
-        public HttpResponseMessage PostRate(int Stars, int Price, string Login, string City, string State, string PlaceName, string Comment = "")
+        public HttpResponseMessage PostRate([FromBody]Rate rate)
         {
             try
             {
-                Rate rate = new Rate();
+                Rate rateReturn = new Rate();
                 using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
                 {
-                    rate = unitOfWork.Rates.PostRate(new Rate { Stars = Stars, Price = Price, Login = Login, City = City, State = State, Name = PlaceName, Comment = Comment });
+                    rateReturn = unitOfWork.Rates.PostRate(rate);
                     unitOfWork.Complete();
                 }
 
-                return Request.CreateResponse(HttpStatusCode.Created, rate);
+                return Request.CreateResponse(HttpStatusCode.Created, rateReturn);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
