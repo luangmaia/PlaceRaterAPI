@@ -12,5 +12,8 @@ namespace PlaceRaterAPI.Repositories.Interfaces
         double GetPlaceAvgStars(Place place);
         double GetPlaceAvgPrice(Place place);
         int GetPlaceQtde(Place place);
+        Rate PostRate(Rate rate);
+        Rate GetRate(string Login, string City, string State, string PlaceName);
+        IEnumerable<Rate> GetUserRates(string Login);
     }
 }

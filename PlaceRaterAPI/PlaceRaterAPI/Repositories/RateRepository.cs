@@ -35,10 +35,27 @@ namespace PlaceRaterAPI.Repositories
                 .Count();
         }
 
+        public Rate GetRate(string Login, string City, string State, string PlaceName)
+        {
+            return ((PlaceRaterContext)Context).Rates
+                .Where(r => r.Name == PlaceName && r.Login == Login && r.City == City && r.State == State).FirstOrDefault();
+        }
+
         public IEnumerable<Rate> GetRatesByPlace(Place place)
         {
            return ((PlaceRaterContext)Context).Rates
                 .Where(r => r.Name == place.Name && r.City == place.City && r.State == place.State).ToList();
+        }
+
+        public IEnumerable<Rate> GetUserRates(string Login)
+        {
+            return ((PlaceRaterContext)Context).Rates
+                .Where(r => r.Login == Login).ToList();
+        }
+
+        public Rate PostRate(Rate rate)
+        {
+            return ((PlaceRaterContext)Context).Rates.Add(rate);
         }
     }
 }

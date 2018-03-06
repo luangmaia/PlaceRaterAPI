@@ -58,6 +58,8 @@ namespace PlaceRaterAPI
             context.Users.Add(user);
             var user2 = new User() { Login = "user2", HashPass = "fdfsd2313s", Email = "email@email.com", Name = "User 1234", Categories = new List<Category> { context.Categories.FirstOrDefault() } };
             context.Users.Add(user2);
+            var user3 = new User() { Login = "user3", HashPass = "fdfsd2313s", Email = "email@email.com", Name = "User 12345", Categories = new List<Category> { context.Categories.FirstOrDefault() } };
+            context.Users.Add(user3);
 
             var place = context.Places.FirstOrDefault<Place>();
             var rate = new Rate() { User = user, Login = user.Login, Place = place, City = place.City, State = place.State, Stars = 4, Price = 3, Comment = "Lugar legal =P" };

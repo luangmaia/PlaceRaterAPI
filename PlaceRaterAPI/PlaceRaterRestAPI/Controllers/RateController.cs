@@ -81,5 +81,90 @@ namespace PlaceRaterRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
+
+        [Route("postrate/")]
+        [HttpPost]
+        [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
+        public HttpResponseMessage PostRate(int Stars, int Price, string Login, string City, string State, string PlaceName, string Comment = "")
+        {
+            try
+            {
+                Rate rate = new Rate();
+                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
+                {
+                    rate = unitOfWork.Rates.PostRate(new Rate { Stars = Stars, Price = Price, Login = Login, City = City, State = State, Name = PlaceName, Comment = Comment });
+                    unitOfWork.Complete();
+                }
+
+                return Request.CreateResponse(HttpStatusCode.Created, rate);
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [Route("rates/")]
+        [HttpGet]
+        [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
+        public HttpResponseMessage GetRate(string Login, string City, string State, string PlaceName)
+        {
+            try
+            {
+                Rate rate = new Rate();
+                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
+                {
+                    rate = unitOfWork.Rates.GetRate(Login, City, State, PlaceName);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, rate);
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [Route("rates/")]
+        [HttpGet]
+        [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
+        public HttpResponseMessage GetUserRates(string Login)
+        {
+            try
+            {
+                IEnumerable<Rate> rates = new List<Rate>();
+                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
+                {
+                    rates = unitOfWork.Rates.GetUserRates(Login);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, rates);
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [Route("rates/")]
+        [HttpGet]
+        [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
+        public HttpResponseMessage GetRates()
+        {
+            try
+            {
+                IEnumerable<Rate> rates = new List<Rate>();
+                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
+                {
+                    rates = unitOfWork.Rates.GetAll();
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, rates);
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
     }
 }
