@@ -38,12 +38,13 @@ namespace PlaceRaterAPI
             defaultImages.Add(new Image() { Url = "https://buziosturismo.com/wp-content/uploads/cache/images/Cristo-Redentor-11/Cristo-Redentor-11-2432722836.jpg" });
             defaultImages.Add(new Image() { Url = "https://novayork.com/sites/default/files/estatua_da_liberdade_nyc.jpg" });
             defaultImages.Add(new Image() { Url = "https://www.vamostrilhar.com.br/wp-content/uploads/2014/02/sobre-o-pc3a3o-de-ac3a7ucar-caminhadas-ecologicas-rj.jpg" });
+            defaultImages.Add(new Image() { Url = "http://artoriusgotrip.com.br/wp-content/uploads/2017/01/P%C3%A3o-de-Acucar-1.jpg" });
 
             IList<Place> defaultPlaces = new List<Place>();
 
             defaultPlaces.Add(new Place() { Name = "Cristo Redentor", City = "Rio de Janeiro", State = "RJ", Categories = new List<Category> { defaultCategories[0], defaultCategories[8] }, Images = new List<Image> { defaultImages[0] } });
             defaultPlaces.Add(new Place() { Name = "Estátua da Liberdade", City = "Nova York", State = "NY", Categories = new List<Category> { defaultCategories[0], defaultCategories[8] }, Images = new List<Image> { defaultImages[1] } });
-            defaultPlaces.Add(new Place() { Name = "Pão de Açucar", City = "Rio de Janeiro", State = "RJ", Categories = new List<Category> { defaultCategories[5] }, Images = new List<Image> { defaultImages[2] } });
+            defaultPlaces.Add(new Place() { Name = "Pão de Açucar", City = "Rio de Janeiro", State = "RJ", Categories = new List<Category> { defaultCategories[5] }, Images = new List<Image> { defaultImages[2], defaultImages[3] } });
 
             foreach (Place placeI in defaultPlaces)
             {

@@ -1,5 +1,6 @@
 ﻿using PlaceRaterAPI;
 using PlaceRaterAPI.UOW;
+using PlaceRaterAPI.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,13 @@ namespace PlaceRaterRestAPI.Controllers
         {
             try
             {
+                if (!UserValidator.isValidCadastro(user))
+                {
+                    throw new Exception("Campos vazios ou inválidos");
+                }
+
+                user.HashPass = UserValidator.sha256_hash(user.HashPass);
+
                 User userReturn = new User();
                 using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
                 {
@@ -41,6 +49,13 @@ namespace PlaceRaterRestAPI.Controllers
         {
             try
             {
+                if (!UserValidator.isValidLogin(user))
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, new { Message = "Campos vazios ou inválidos" });
+                }
+
+                user.HashPass = UserValidator.sha256_hash(user.HashPass);
+
                 User userReturn = new User();
                 using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
                 {

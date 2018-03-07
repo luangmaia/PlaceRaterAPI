@@ -33,7 +33,7 @@ namespace PlaceRaterAPI.Repositories
         {
             var rates = ((PlaceRaterContext)Context).Rates
                 .GroupBy(r => new { Name = r.Name, State = r.State, City = r.City })
-                .Select(r => new { Name = r.Key.Name, State = r.Key.State, City = r.Key.City, Stars = r.FirstOrDefault().Stars })
+                .Select(r => new { Name = r.Key.Name, State = r.Key.State, City = r.Key.City, Stars = r.Average(a => a.Stars) })
                 .OrderByDescending(c => c.Stars).Take(count).ToList();
 
             var places = new List<Place>();
@@ -50,8 +50,8 @@ namespace PlaceRaterAPI.Repositories
         {
             var rates = ((PlaceRaterContext)Context).Rates
                 .GroupBy(r => new { Name = r.Name, State = r.State, City = r.City })
-                .Select(r => new { Name = r.Key.Name, State = r.Key.State, City = r.Key.City, Price = r.FirstOrDefault().Price })
-                .OrderByDescending(c => c.Price).Take(count).ToList();
+                .Select(r => new { Name = r.Key.Name, State = r.Key.State, City = r.Key.City, Price = r.Average(a => a.Price) })
+                .OrderBy(c => c.Price).Take(count).ToList();
 
             var places = new List<Place>();
             foreach (var rate in rates)

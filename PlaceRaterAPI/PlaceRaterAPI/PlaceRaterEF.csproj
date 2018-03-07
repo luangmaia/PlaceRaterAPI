@@ -87,6 +87,7 @@
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="UOW\UnitOfWork.cs" />
     <Compile Include="Validators\RateValidator.cs" />
+    <Compile Include="Validators\UserValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
