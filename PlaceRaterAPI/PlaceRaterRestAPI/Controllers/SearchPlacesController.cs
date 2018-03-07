@@ -12,7 +12,7 @@ namespace PlaceRaterRestAPI.Controllers
 {
     public class SearchPlacesController : ApiController
     {
-        private readonly int pageSize = 2;
+        private readonly int pageSize = 5;
 
         /*[Route("procurarLugares/")]
         [HttpGet]
@@ -110,28 +110,6 @@ namespace PlaceRaterRestAPI.Controllers
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK, placesReturn);
-            }
-            catch (Exception)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
-        }
-
-        [Route("categorias/")]
-        [HttpGet]
-        [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
-        public HttpResponseMessage GetAllCategories()
-        {
-            try
-            {
-                IEnumerable<Category> categories = new List<Category>();
-
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    categories = unitOfWork.Categories.GetAll();
-                }
-
-                return Request.CreateResponse(HttpStatusCode.OK, categories);
             }
             catch (Exception)
             {

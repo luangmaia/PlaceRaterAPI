@@ -186,5 +186,24 @@ namespace PlaceRaterAPI.Repositories
 
             return places;
         }
+
+        public IEnumerable<Place> GetPlace(string name, string city, string state)
+        {
+            var places = ((PlaceRaterContext)Context).Places
+                .Where(p => p.City.Equals(city) && p.State.Equals(state) && p.Name.Equals(name))
+                .Include(p => p.Images)
+                .Include(p => p.Categories)
+                .ToList();
+
+            foreach (Place place in places)
+            {
+                foreach (Category category in place.Categories)
+                {
+                    category.Places = null;
+                }
+            }
+
+            return places;
+        }
     }
 }

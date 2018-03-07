@@ -28,6 +28,7 @@ namespace PlaceRaterAPI
                 ctx.Rates.Add(rate);
 
                 ctx.SaveChanges();*/
+                Console.WriteLine(ctx.Users.Where(u => u.Login.Equals("user3")).FirstOrDefault().Login);
             }
 
             using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
@@ -39,7 +40,7 @@ namespace PlaceRaterAPI
                     Console.WriteLine(place.Name);
                 }*/
 
-                Console.WriteLine(unitOfWork.Rates.GetPlaceAvgStars(unitOfWork.Places.GetTopAvaliados(1).FirstOrDefault()));
+                Console.WriteLine(unitOfWork.Rates.GetAll().LastOrDefault().Login);
 
                 Console.Read();
             }
