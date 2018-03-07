@@ -1,5 +1,6 @@
 ﻿using PlaceRaterAPI;
 using PlaceRaterAPI.UOW;
+using PlaceRaterAPI.Validators;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -82,13 +83,18 @@ namespace PlaceRaterRestAPI.Controllers
             }
         }
 
-        [Route("postrate/")]
+        [Route("rates/")]
         [HttpPost]
         [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
         public HttpResponseMessage PostRate([FromBody]Rate rate)
         {
             try
             {
+                if (!RateValidator.isValid(rate))
+                {
+                    throw new Exception("Rate invalid");
+                }
+
                 Rate rateReturn = new Rate();
                 using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
                 {
@@ -100,21 +106,26 @@ namespace PlaceRaterRestAPI.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new { Message = ex.Message });
             }
         }
 
         [Route("rates/")]
         [HttpGet]
         [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
-        public HttpResponseMessage GetRate(string Login, string City, string State, string PlaceName)
+        public HttpResponseMessage GetRate(string Login, string City, string State, string Name)
         {
             try
             {
                 Rate rate = new Rate();
                 using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
                 {
-                    rate = unitOfWork.Rates.GetRate(Login, City, State, PlaceName);
+                    rate = unitOfWork.Rates.GetRate(Login, City, State, Name);
+                }
+
+                if (rate == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK, rate);
@@ -122,6 +133,28 @@ namespace PlaceRaterRestAPI.Controllers
             catch (Exception)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [Route("rates/")]
+        [HttpDelete]
+        [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
+        public HttpResponseMessage DeleteRate([FromUri]Rate rate)
+        {
+            try
+            {
+                Rate rateReturn = new Rate();
+                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
+                {
+                    rateReturn = unitOfWork.Rates.DeleteRate(rate);
+                    unitOfWork.Complete();
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, rateReturn);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new { Message = ex.Message });
             }
         }
 
@@ -157,6 +190,27 @@ namespace PlaceRaterRestAPI.Controllers
                 using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
                 {
                     rates = unitOfWork.Rates.GetAll();
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, rates);
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [Route("rates/")]
+        [HttpGet]
+        [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
+        public HttpResponseMessage GetRatesByPlace(string City, string State, string Name)
+        {
+            try
+            {
+                IEnumerable<Rate> rates = new List<Rate>();
+                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
+                {
+                    rates = unitOfWork.Rates.GetRatesByPlace(new Place() { Name = Name, City = City, State = State });
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK, rates);

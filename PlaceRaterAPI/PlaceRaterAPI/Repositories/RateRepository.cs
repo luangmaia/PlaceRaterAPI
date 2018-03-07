@@ -44,18 +44,39 @@ namespace PlaceRaterAPI.Repositories
         public IEnumerable<Rate> GetRatesByPlace(Place place)
         {
            return ((PlaceRaterContext)Context).Rates
-                .Where(r => r.Name == place.Name && r.City == place.City && r.State == place.State).ToList();
+                .Where(r => r.Name == place.Name && r.City == place.City && r.State == place.State)
+                .OrderBy(r => r.Stars)
+                .ToList();
         }
 
         public IEnumerable<Rate> GetUserRates(string Login)
         {
             return ((PlaceRaterContext)Context).Rates
-                .Where(r => r.Login == Login).ToList();
+                .Where(r => r.Login == Login)
+                .OrderBy(r => r.Stars)
+                .ToList();
         }
 
         public Rate PostRate(Rate rate)
         {
             return ((PlaceRaterContext)Context).Rates.Add(rate);
+        }
+
+        public void ChangeRate(Rate rate)
+        {
+            Rate rateBD = ((PlaceRaterContext)Context).Rates
+                .Where(r => r.Login == rate.Login && r.Name == rate.Name && r.City == rate.City && r.State == rate.State)
+                .Single();
+
+            rateBD = rate;
+        }
+
+        public Rate DeleteRate(Rate rate)
+        {
+            Rate rateBD = ((PlaceRaterContext)Context).Rates
+                .Where(r => r.Login == rate.Login && r.Name == rate.Name && r.City == rate.City && r.State == rate.State)
+                .Single();
+            return ((PlaceRaterContext)Context).Rates.Remove(rateBD);
         }
     }
 }

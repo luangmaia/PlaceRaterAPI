@@ -65,8 +65,10 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repositories\Interfaces\ICategoryRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRateRepository.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\RateRepository.cs" />
     <Compile Include="UOW\IUnitOfWork.cs" />
     <Compile Include="Migrations\201802281259052_criaSPs.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="Repositories\PlaceRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="UOW\UnitOfWork.cs" />
+    <Compile Include="Validators\RateValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

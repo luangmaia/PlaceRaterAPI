@@ -18,10 +18,12 @@ namespace PlaceRaterAPI.UOW
             Places = new PlaceRepository(_context);
             Rates = new RateRepository(_context);
             Categories = new CategoryRepository(_context);
+            Users = new UserRepository(_context);
         }
         public IPlaceRepository Places { get; private set;}
         public IRateRepository Rates { get; private set; }
         public ICategoryRepository Categories { get; private set; }
+        public IUserRepository Users { get; private set; }
 
         public int Complete()
         {

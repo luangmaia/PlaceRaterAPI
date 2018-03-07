@@ -12,6 +12,8 @@ namespace PlaceRaterAPI.UOW
     {
         IPlaceRepository Places { get; }
         IRateRepository Rates { get; }
+        ICategoryRepository Categories { get; }
+        IUserRepository Users { get; }
         int Complete();
     }
 }
