@@ -1,4 +1,5 @@
-﻿using PlaceRaterAPI;
+﻿using BusinessPlaceRater.BLLs;
+using PlaceRaterAPI;
 using PlaceRaterAPI.UOW;
 using PlaceRaterAPI.Validators;
 using System;
@@ -13,6 +14,8 @@ namespace PlaceRaterRestAPI.Controllers
 {
     public class UserController : ApiController
     {
+        private readonly UsersBLL userLogic = new UsersBLL();
+
         [Route("cadastro/")]
         [HttpPost]
         [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
@@ -22,23 +25,23 @@ namespace PlaceRaterRestAPI.Controllers
             {
                 if (!UserValidator.isValidCadastro(user))
                 {
-                    throw new Exception("Campos vazios ou inválidos");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, new { Message = ErrorMessages.erroCamposVaziosInvalidos });
                 }
 
                 user.HashPass = UserValidator.sha256_hash(user.HashPass);
 
-                User userReturn = new User();
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
+                if (userLogic.existeUsuario(user))
                 {
-                    userReturn = unitOfWork.Users.CadastrarUsuario(user);
-                    unitOfWork.Complete();
+                    return Request.CreateResponse(HttpStatusCode.NotFound, new { Message = ErrorMessages.erroUsuarioJaExistente });
                 }
+
+                User userReturn = userLogic.CadastrarUsuario(user);
 
                 return Request.CreateResponse(HttpStatusCode.Created, userReturn);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, new { Message = ex.Message });
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new { Message = ErrorMessages.erroInternoServidor });
             }
         }
 
@@ -51,22 +54,23 @@ namespace PlaceRaterRestAPI.Controllers
             {
                 if (!UserValidator.isValidLogin(user))
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, new { Message = "Campos vazios ou inválidos" });
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, new { Message = ErrorMessages.erroCamposVaziosInvalidos });
                 }
 
                 user.HashPass = UserValidator.sha256_hash(user.HashPass);
 
-                User userReturn = new User();
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
+                if (!userLogic.existeUsuario(user))
                 {
-                    userReturn = unitOfWork.Users.LoginUsuario(user);
+                    return Request.CreateResponse(HttpStatusCode.NotFound, new { Message = ErrorMessages.erroUsuarioNaoExistente });
                 }
+
+                User userReturn = userLogic.LogarUsuario(user);
 
                 return Request.CreateResponse(HttpStatusCode.OK, userReturn);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, new { Message = ex.Message });
+                return Request.CreateResponse(HttpStatusCode.NotFound, new { Message = ErrorMessages.erroInternoServidor });
             }
         }
     }

@@ -10,5 +10,6 @@ namespace PlaceRaterAPI.Repositories.Interfaces
     {
         User CadastrarUsuario(User user);
         User LoginUsuario(User user);
+        User GetUser(User user);
     }
 }

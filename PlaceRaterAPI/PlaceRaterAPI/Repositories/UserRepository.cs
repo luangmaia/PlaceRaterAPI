@@ -19,11 +19,20 @@ namespace PlaceRaterAPI.Repositories
             return ((PlaceRaterContext)Context).Users.Add(user);
         }
 
+        public User GetUser(User user)
+        {
+            User userBD = ((PlaceRaterContext)Context).Users
+                .Where(u => u.Login.Equals(user.Login))
+                .SingleOrDefault();
+
+            return userBD;
+        }
+
         public User LoginUsuario(User user)
         {
             User userBD = ((PlaceRaterContext)Context).Users
                 .Where(u => u.Login.Equals(user.Login) && u.HashPass.Equals(user.HashPass))
-                .Single();
+                .SingleOrDefault();
 
             return userBD;
         }
