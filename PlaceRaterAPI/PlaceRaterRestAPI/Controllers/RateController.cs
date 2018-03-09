@@ -1,4 +1,5 @@
-﻿using PlaceRaterAPI;
+﻿using BusinessPlaceRater.BLLs;
+using PlaceRaterAPI;
 using PlaceRaterAPI.UOW;
 using PlaceRaterAPI.Validators;
 using System;
@@ -14,6 +15,8 @@ namespace PlaceRaterRestAPI.Controllers
 {
     public class RateController : ApiController
     {
+        private readonly RatesBLL ratesLogic = new RatesBLL();
+
         [Route("avgStarsPlace/{name}/{city}/{state}")]
         [HttpGet]
         [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
@@ -21,11 +24,7 @@ namespace PlaceRaterRestAPI.Controllers
         {
             try
             {
-                double avg = 0;
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    avg = unitOfWork.Rates.GetPlaceAvgStars(new Place() { Name = name, City = city, State = state } );
-                }
+                double avg = ratesLogic.GetAvgStarsPlace(name, city, state);
 
                 var retorno = new { avg = avg };
 
@@ -33,7 +32,7 @@ namespace PlaceRaterRestAPI.Controllers
             }
             catch (Exception)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ErrorMessages.erroInternoServidor);
             }
         }
 
@@ -44,11 +43,7 @@ namespace PlaceRaterRestAPI.Controllers
         {
             try
             {
-                double avg = 0;
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    avg = unitOfWork.Rates.GetPlaceAvgPrice(new Place() { Name = name, City = city, State = state });
-                }
+                double avg = ratesLogic.GetAvgPricePlace(name, city, state);
 
                 var retorno = new { avg = avg };
 
@@ -56,7 +51,7 @@ namespace PlaceRaterRestAPI.Controllers
             }
             catch (Exception)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ErrorMessages.erroInternoServidor);
             }
         }
 
@@ -67,11 +62,7 @@ namespace PlaceRaterRestAPI.Controllers
         {
             try
             {
-                int qtde = 0;
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    qtde = unitOfWork.Rates.GetPlaceQtde(new Place() { Name = name, City = city, State = state });
-                }
+                int qtde = ratesLogic.GetQtdePlace(name, city, state);
 
                 var retorno = new { qtde = qtde };
 
@@ -79,7 +70,7 @@ namespace PlaceRaterRestAPI.Controllers
             }
             catch (Exception)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ErrorMessages.erroInternoServidor);
             }
         }
 
@@ -92,21 +83,16 @@ namespace PlaceRaterRestAPI.Controllers
             {
                 if (!RateValidator.isValid(rate))
                 {
-                    throw new Exception("Rate invalid");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, ErrorMessages.erroAvaliacaoInvalida);
                 }
 
-                Rate rateReturn = new Rate();
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    rateReturn = unitOfWork.Rates.PostRate(rate);
-                    unitOfWork.Complete();
-                }
+                Rate rateReturn = ratesLogic.PostRate(rate);
 
                 return Request.CreateResponse(HttpStatusCode.Created, rateReturn);
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, new { Message = ex.Message });
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ErrorMessages.erroInternoServidor);
             }
         }
 
@@ -117,22 +103,18 @@ namespace PlaceRaterRestAPI.Controllers
         {
             try
             {
-                Rate rate = new Rate();
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    rate = unitOfWork.Rates.GetRate(Login, City, State, Name);
-                }
+                Rate rate = ratesLogic.GetRate(Login, City, State, Name);
 
                 if (rate == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                    return Request.CreateResponse(HttpStatusCode.NotFound, ErrorMessages.erroAvaliacaoNaoEncontrada);
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK, rate);
             }
             catch (Exception)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ErrorMessages.erroInternoServidor);
             }
         }
 
@@ -143,18 +125,13 @@ namespace PlaceRaterRestAPI.Controllers
         {
             try
             {
-                Rate rateReturn = new Rate();
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    rateReturn = unitOfWork.Rates.DeleteRate(rate);
-                    unitOfWork.Complete();
-                }
+                Rate rateReturn = ratesLogic.DeleteRate(rate);
 
                 return Request.CreateResponse(HttpStatusCode.OK, rateReturn);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, new { Message = ex.Message });
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ErrorMessages.erroInternoServidor);
             }
         }
 
@@ -165,17 +142,13 @@ namespace PlaceRaterRestAPI.Controllers
         {
             try
             {
-                IEnumerable<Rate> rates = new List<Rate>();
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    rates = unitOfWork.Rates.GetUserRates(Login);
-                }
+                IEnumerable<Rate> rates = ratesLogic.GetUserRates(Login);
 
                 return Request.CreateResponse(HttpStatusCode.OK, rates);
             }
             catch (Exception)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ErrorMessages.erroInternoServidor);
             }
         }
 
@@ -186,17 +159,13 @@ namespace PlaceRaterRestAPI.Controllers
         {
             try
             {
-                IEnumerable<Rate> rates = new List<Rate>();
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    rates = unitOfWork.Rates.GetAll();
-                }
+                IEnumerable<Rate> rates = ratesLogic.GetRates();
 
                 return Request.CreateResponse(HttpStatusCode.OK, rates);
             }
             catch (Exception)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ErrorMessages.erroInternoServidor);
             }
         }
 
@@ -207,17 +176,13 @@ namespace PlaceRaterRestAPI.Controllers
         {
             try
             {
-                IEnumerable<Rate> rates = new List<Rate>();
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    rates = unitOfWork.Rates.GetRatesByPlace(new Place() { Name = Name, City = City, State = State });
-                }
+                IEnumerable<Rate> rates = ratesLogic.GetRatesByPlace(City, State, Name);
 
                 return Request.CreateResponse(HttpStatusCode.OK, rates);
             }
             catch (Exception)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ErrorMessages.erroInternoServidor);
             }
         }
     }

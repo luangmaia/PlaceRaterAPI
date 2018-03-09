@@ -1,4 +1,5 @@
-﻿using PlaceRaterAPI;
+﻿using BusinessPlaceRater.BLLs;
+using PlaceRaterAPI;
 using PlaceRaterAPI.UOW;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace PlaceRaterRestAPI.Controllers
 {
     public class CategoryController : ApiController
     {
+        private readonly CategoriesBLL categoriesLogic = new CategoriesBLL();
+
         [Route("categorias/")]
         [HttpGet]
         [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
@@ -19,18 +22,13 @@ namespace PlaceRaterRestAPI.Controllers
         {
             try
             {
-                IEnumerable<Category> categories = new List<Category>();
-
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    categories = unitOfWork.Categories.GetAll();
-                }
+                IEnumerable<Category> categories = categoriesLogic.GetAllCategories();
 
                 return Request.CreateResponse(HttpStatusCode.OK, categories);
             }
             catch (Exception)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ErrorMessages.erroInternoServidor);
             }
         }
     }

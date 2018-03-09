@@ -42,8 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLLs\CategoriesBLL.cs" />
     <Compile Include="BLLs\PlacesBLL.cs" />
-    <Compile Include="BLLs\UserBLL.cs" />
+    <Compile Include="BLLs\RatesBLL.cs" />
+    <Compile Include="BLLs\UsersBLL.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
