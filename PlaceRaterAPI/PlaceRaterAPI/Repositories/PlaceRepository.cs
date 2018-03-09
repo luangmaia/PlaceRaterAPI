@@ -205,5 +205,66 @@ namespace PlaceRaterAPI.Repositories
 
             return places;
         }
+
+        public IEnumerable<Place> GetAllPagination(int page, int pageSize)
+        {
+            var places = ((PlaceRaterContext)Context).Places
+                .OrderBy(p => p.Name)
+                .Skip((page - 1) * pageSize).Take(pageSize)
+                .Include(p => p.Images)
+                .Include(p => p.Categories)
+                .ToList();
+
+            foreach (Place place in places)
+            {
+                foreach (Category category in place.Categories)
+                {
+                    category.Places = null;
+                }
+            }
+
+            return places;
+        }
+
+        public IEnumerable<Place> GetAllPaginationFiltered(int page, int pageSize, string categoria)
+        {
+            var places = ((PlaceRaterContext)Context).Places
+                .Where(p => p.Categories.Any(c => c.Name == categoria))
+                .OrderBy(p => p.Name)
+                .Skip((page - 1) * pageSize).Take(pageSize)
+                .Include(p => p.Images)
+                .Include(p => p.Categories)
+                .ToList();
+
+            foreach (Place place in places)
+            {
+                foreach (Category category in place.Categories)
+                {
+                    category.Places = null;
+                }
+            }
+
+            return places;
+        }
+
+        public IEnumerable<Place> GetAllFiltered(string categoria)
+        {
+            var places = ((PlaceRaterContext)Context).Places
+                .Where(p => p.Categories.Any(c => c.Name == categoria))
+                .OrderBy(p => p.Name)
+                .Include(p => p.Images)
+                .Include(p => p.Categories)
+                .ToList();
+
+            foreach (Place place in places)
+            {
+                foreach (Category category in place.Categories)
+                {
+                    category.Places = null;
+                }
+            }
+
+            return places;
+        }
     }
 }

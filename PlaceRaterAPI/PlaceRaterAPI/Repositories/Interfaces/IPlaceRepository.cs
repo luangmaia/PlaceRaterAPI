@@ -18,5 +18,8 @@ namespace PlaceRaterAPI.Repositories
         IEnumerable<Place> SearchByNameCityStatePagination(string str, int page, int pageSize);
         IEnumerable<Place> SearchByNameCityStateCategoryPagination(string str, int page, int pageSize, string categoria);
         IEnumerable<Place> GetPlace(string name, string city, string state);
+        IEnumerable<Place> GetAllFiltered(string categoria);
+        IEnumerable<Place> GetAllPagination(int page, int pageSize);
+        IEnumerable<Place> GetAllPaginationFiltered(int page, int pageSize, string categoria);
     }
 }

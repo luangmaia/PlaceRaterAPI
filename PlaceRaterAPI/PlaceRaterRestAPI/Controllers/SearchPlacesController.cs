@@ -34,6 +34,90 @@ namespace PlaceRaterRestAPI.Controllers
             }
         }*/
 
+        [Route("lugares/")]
+        [HttpGet]
+        [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
+        public HttpResponseMessage SearchEmpty(string categoria = null, int starfilter = 1, int pricefilter = 5, bool qtdepaginas = false)
+        {
+            try
+            {
+                List<Place> placesReturn = new List<Place>();
+
+                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
+                {
+                    IEnumerable<Place> places = new List<Place>();
+
+                    if (categoria != null)
+                    {
+                        places = unitOfWork.Places.GetAllFiltered(categoria);
+                    }
+                    else
+                    {
+                        places = unitOfWork.Places.GetAll();
+                    }
+
+                    foreach (Place place in places)
+                    {
+                        if (Math.Ceiling(unitOfWork.Rates.GetPlaceAvgStars(place)) >= starfilter && Math.Ceiling(unitOfWork.Rates.GetPlaceAvgPrice(place)) <= pricefilter)
+                        {
+                            placesReturn.Add(place);
+                        }
+                    }
+                }
+
+                if (qtdepaginas == true)
+                {
+                    int qtde = (int)Math.Ceiling(placesReturn.Count() / (decimal)pageSize);
+                    return Request.CreateResponse(HttpStatusCode.OK, new { qtde = qtde });
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, placesReturn);
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [Route("lugares/")]
+        [HttpGet]
+        [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
+        public HttpResponseMessage SearchEmptyPagination(int page, string categoria = null, int starfilter = 1, int pricefilter = 5)
+        {
+            try
+            {
+                List<Place> placesReturn = new List<Place>();
+
+                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
+                {
+                    IEnumerable<Place> places = new List<Place>();
+
+                    if (categoria != null)
+                    {
+                        places = unitOfWork.Places.GetAllPaginationFiltered(page, pageSize, categoria);
+                    }
+                    else
+                    {
+                        places = unitOfWork.Places.GetAllPagination(page, pageSize);
+                    }
+
+                    foreach (Place place in places)
+                    {
+                        if (Math.Ceiling(unitOfWork.Rates.GetPlaceAvgStars(place)) >= starfilter && Math.Ceiling(unitOfWork.Rates.GetPlaceAvgPrice(place)) <= pricefilter)
+                        {
+                            placesReturn.Add(place);
+                        }
+                    }
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, placesReturn);
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
         [Route("procurarLugares/")]
         [HttpGet]
         [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
