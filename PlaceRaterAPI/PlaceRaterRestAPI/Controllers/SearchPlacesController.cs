@@ -1,4 +1,5 @@
-﻿using PlaceRaterAPI;
+﻿using BusinessPlaceRater.BLLs;
+using PlaceRaterAPI;
 using PlaceRaterAPI.UOW;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace PlaceRaterRestAPI.Controllers
 {
     public class SearchPlacesController : ApiController
     {
-        private readonly int pageSize = 5;
+        private readonly PlacesBLL placesLogic = new PlacesBLL();
 
         /*[Route("procurarLugares/")]
         [HttpGet]
@@ -34,90 +35,6 @@ namespace PlaceRaterRestAPI.Controllers
             }
         }*/
 
-        [Route("lugares/")]
-        [HttpGet]
-        [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
-        public HttpResponseMessage SearchEmpty(string categoria = null, int starfilter = 1, int pricefilter = 5, bool qtdepaginas = false)
-        {
-            try
-            {
-                List<Place> placesReturn = new List<Place>();
-
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    IEnumerable<Place> places = new List<Place>();
-
-                    if (categoria != null)
-                    {
-                        places = unitOfWork.Places.GetAllFiltered(categoria);
-                    }
-                    else
-                    {
-                        places = unitOfWork.Places.GetAll();
-                    }
-
-                    foreach (Place place in places)
-                    {
-                        if (Math.Ceiling(unitOfWork.Rates.GetPlaceAvgStars(place)) >= starfilter && Math.Ceiling(unitOfWork.Rates.GetPlaceAvgPrice(place)) <= pricefilter)
-                        {
-                            placesReturn.Add(place);
-                        }
-                    }
-                }
-
-                if (qtdepaginas == true)
-                {
-                    int qtde = (int)Math.Ceiling(placesReturn.Count() / (decimal)pageSize);
-                    return Request.CreateResponse(HttpStatusCode.OK, new { qtde = qtde });
-                }
-
-                return Request.CreateResponse(HttpStatusCode.OK, placesReturn);
-            }
-            catch (Exception)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
-        }
-
-        [Route("lugares/")]
-        [HttpGet]
-        [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
-        public HttpResponseMessage SearchEmptyPagination(int page, string categoria = null, int starfilter = 1, int pricefilter = 5)
-        {
-            try
-            {
-                List<Place> placesReturn = new List<Place>();
-
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    IEnumerable<Place> places = new List<Place>();
-
-                    if (categoria != null)
-                    {
-                        places = unitOfWork.Places.GetAllPaginationFiltered(page, pageSize, categoria);
-                    }
-                    else
-                    {
-                        places = unitOfWork.Places.GetAllPagination(page, pageSize);
-                    }
-
-                    foreach (Place place in places)
-                    {
-                        if (Math.Ceiling(unitOfWork.Rates.GetPlaceAvgStars(place)) >= starfilter && Math.Ceiling(unitOfWork.Rates.GetPlaceAvgPrice(place)) <= pricefilter)
-                        {
-                            placesReturn.Add(place);
-                        }
-                    }
-                }
-
-                return Request.CreateResponse(HttpStatusCode.OK, placesReturn);
-            }
-            catch (Exception)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
-        }
-
         [Route("procurarLugares/")]
         [HttpGet]
         [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
@@ -125,32 +42,11 @@ namespace PlaceRaterRestAPI.Controllers
         {
             try
             {
-                List<Place> placesReturn = new List<Place>();
-
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    IEnumerable<Place> places = new List<Place>();
-
-                    if (categoria != null)
-                    {
-                        places = unitOfWork.Places.SearchByNameCityStateCategory(busca, categoria);
-                    } else
-                    {
-                        places = unitOfWork.Places.SearchByNameCityState(busca);
-                    }
-
-                    foreach (Place place in places)
-                    {
-                        if (Math.Ceiling(unitOfWork.Rates.GetPlaceAvgStars(place)) >= starfilter && Math.Ceiling(unitOfWork.Rates.GetPlaceAvgPrice(place)) <= pricefilter)
-                        {
-                            placesReturn.Add(place);
-                        }
-                    }
-                }
+                IEnumerable<Place> placesReturn = placesLogic.SearchByNameCityStateFiltered(busca, categoria, starfilter, pricefilter);
 
                 if (qtdepaginas == true)
                 {
-                    int qtde = (int)Math.Ceiling(placesReturn.Count() / (decimal)pageSize);
+                    int qtde = placesLogic.GetQuantidade(placesReturn);
                     return Request.CreateResponse(HttpStatusCode.OK, new { qtde = qtde });
                 }
 
@@ -158,7 +54,7 @@ namespace PlaceRaterRestAPI.Controllers
             }
             catch (Exception)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new { Message = ErrorMessages.erroInternoServidor });
             }
         }
 
@@ -169,35 +65,13 @@ namespace PlaceRaterRestAPI.Controllers
         {
             try
             {
-                List<Place> placesReturn = new List<Place>();
-
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    IEnumerable<Place> places = new List<Place>();
-
-                    if (categoria != null)
-                    {
-                        places = unitOfWork.Places.SearchByNameCityStateCategoryPagination(busca, page, pageSize, categoria);
-                    }
-                    else
-                    {
-                        places = unitOfWork.Places.SearchByNameCityStatePagination(busca, page, pageSize);
-                    }
-
-                    foreach (Place place in places)
-                    {
-                        if (Math.Ceiling(unitOfWork.Rates.GetPlaceAvgStars(place)) >= starfilter && Math.Ceiling(unitOfWork.Rates.GetPlaceAvgPrice(place)) <= pricefilter)
-                        {
-                            placesReturn.Add(place);
-                        }
-                    }
-                }
+                IEnumerable<Place> placesReturn = placesLogic.SearchByNameCityStateFilteredPagination(busca, page, categoria, starfilter, pricefilter);
 
                 return Request.CreateResponse(HttpStatusCode.OK, placesReturn);
             }
             catch (Exception)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new { Message = ErrorMessages.erroInternoServidor });
             }
         }
 

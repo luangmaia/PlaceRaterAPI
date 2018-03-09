@@ -123,6 +123,10 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BusinessPlaceRater\BusinessPlaceRater.csproj">
+      <Project>{5f241226-26e3-4f20-8298-a2af2ba358d0}</Project>
+      <Name>BusinessPlaceRater</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PlaceRaterAPI\PlaceRaterEF.csproj">
       <Project>{50b7c99d-49d6-4e56-a972-550d677370ea}</Project>
       <Name>PlaceRaterEF</Name>

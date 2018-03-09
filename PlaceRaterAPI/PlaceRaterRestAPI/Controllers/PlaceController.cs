@@ -1,4 +1,5 @@
-﻿using PlaceRaterAPI;
+﻿using BusinessPlaceRater.BLLs;
+using PlaceRaterAPI;
 using PlaceRaterAPI.UOW;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace PlaceRaterRestAPI.Controllers
 {
     public class PlaceController : ApiController
     {
+        private readonly PlacesBLL placesLogic = new PlacesBLL();
+
         [Route("places/")]
         [HttpGet]
         [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
@@ -19,18 +22,13 @@ namespace PlaceRaterRestAPI.Controllers
         {
             try
             {
-                IEnumerable<Place> placesReturn = new List<Place>();
-
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    placesReturn = unitOfWork.Places.GetPlace(Name, City, State);
-                }
+                IEnumerable<Place> placesReturn = placesLogic.GetPlace(Name, City, State);
 
                 return Request.CreateResponse(HttpStatusCode.OK, placesReturn);
             }
             catch (Exception)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new { Message = ErrorMessages.erroInternoServidor });
             }
         }
 
@@ -41,18 +39,13 @@ namespace PlaceRaterRestAPI.Controllers
         {
             try
             {
-                IEnumerable<Place> placesReturn = new List<Place>();
-
-                using (var unitOfWork = new UnitOfWork(new PlaceRaterContext()))
-                {
-                    placesReturn = unitOfWork.Places.GetAll().ToList();
-                }
+                IEnumerable<Place> placesReturn = placesLogic.GetAllPlaces();
 
                 return Request.CreateResponse(HttpStatusCode.OK, placesReturn);
             }
             catch (Exception)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new { Message = ErrorMessages.erroInternoServidor });
             }
         }
     }
